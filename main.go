@@ -27,10 +27,12 @@ func main() {
 	}
 	cmds.register("login", handleLogin)
 	cmds.register("register", handleRegister)
+	cmds.register("reset", handleReset)
+	cmds.register("users", handleUsers)
 	args := os.Args
-	if len(args) < 2 {
-		log.Fatal("At least two arguments expected!")
-	}
+	// if len(args) < 2 && !(args[1] == ){
+	// 	log.Fatal("At least two arguments expected!")
+	// }
 	cmd_name, cmd_args := args[1], args[2:]
 	cmd := command{
 		name: cmd_name,
