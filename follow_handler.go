@@ -11,29 +11,18 @@ import (
 	"github.com/google/uuid"
 )
 
-func handleAddFeed(s *state, cmd command) error {
-	if len(cmd.args) != 2 {
-		return errors.New("addfeed expects two arguments: name and url")
+func handleFollow(s *state, cmd command) error {
+	if len(cmd.args) != 1 {
+		return errors.New("follow expects only 1 argument, url of feed")
 	}
 	user, err := s.db.GetUser(context.Background(), s.cfg.CurrentUserName)
 	if err != nil {
 		log.Fatalf("Error user doesn't exist!: %v", cmd.args[0])
 	}
-	feed, err := s.db.CreateFeed(
-		context.Background(),
-		database.CreateFeedParams{
-			ID:        uuid.New(),
-			CreatedAt: time.Now(),
-			UpdatedAt: time.Now(),
-			Name:      cmd.args[0],
-			Url:       cmd.args[1],
-			UserID:    user.ID,
-		},
-	)
+	feed, err := s.db.GetFeedByURL(context.Background(), cmd.args[0])
 	if err != nil {
-		log.Fatalf("Error creating feed: %v", err)
+		log.Fatalf("Error feed doesn't exist!: %v", cmd.args[0])
 	}
-	fmt.Printf("Feed %v has been created!\n", feed)
 	follow, err := s.db.CreateFeedFollow(
 		context.Background(),
 		database.CreateFeedFollowParams{

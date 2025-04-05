@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"database/sql"
 	"errors"
 	"fmt"
 	"log"
@@ -22,16 +21,13 @@ func handleRegister(s *state, cmd command) error {
 			ID:        uuid.New(),
 			CreatedAt: time.Now(),
 			UpdatedAt: time.Now(),
-			Name: sql.NullString{
-				String: cmd.args[0],
-				Valid:  true,
-			},
+			Name:      cmd.args[0],
 		},
 	)
 	if err != nil {
 		log.Fatalf("Error setting user: %v", err)
 	}
-	err = s.cfg.SetUser(user.Name.String)
+	err = s.cfg.SetUser(user.Name)
 	if err != nil {
 		log.Fatalf("Error setting user: %v", err)
 	}

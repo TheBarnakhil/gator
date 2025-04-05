@@ -9,8 +9,8 @@ import (
 func handleUsers(s *state, _ command) error {
 	users, err := s.db.GetUsers(context.Background())
 	for _, user := range users {
-		fmt.Print(user.Name.String)
-		if user.Name.String == s.cfg.CurrentUserName {
+		fmt.Print(user.Name)
+		if user.Name == s.cfg.CurrentUserName {
 			fmt.Print(" (current)")
 		}
 		fmt.Println()
