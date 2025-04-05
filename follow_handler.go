@@ -11,13 +11,9 @@ import (
 	"github.com/google/uuid"
 )
 
-func handleFollow(s *state, cmd command) error {
+func handleFollow(s *state, cmd command, user database.User) error {
 	if len(cmd.args) != 1 {
 		return errors.New("follow expects only 1 argument, url of feed")
-	}
-	user, err := s.db.GetUser(context.Background(), s.cfg.CurrentUserName)
-	if err != nil {
-		log.Fatalf("Error user doesn't exist!: %v", cmd.args[0])
 	}
 	feed, err := s.db.GetFeedByURL(context.Background(), cmd.args[0])
 	if err != nil {

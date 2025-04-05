@@ -3,13 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
+
+	"github.com/TheBarnakhil/gator/internal/database"
 )
 
-func handleFollowing(s *state, _ command) error {
-	user, err := s.db.GetUser(context.Background(), s.cfg.CurrentUserName)
-	if err != nil {
-		return fmt.Errorf("error getting current user info: %w", err)
-	}
+func handleFollowing(s *state, _ command, user database.User) error {
 	follows, err := s.db.GetFeedFollowsForUser(context.Background(), user.ID)
 	if err != nil {
 		return fmt.Errorf("error getting follows for current user: %w", err)
