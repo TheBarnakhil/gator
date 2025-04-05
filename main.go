@@ -38,6 +38,7 @@ func main() {
 	cmds.register("feeds", handleFeeds)
 	cmds.register("follow", middlewareLoggedIn(handleFollow))
 	cmds.register("following", middlewareLoggedIn(handleFollowing))
+	cmds.register("unfollow", middlewareLoggedIn(handleUnfollow))
 	args := os.Args
 	if len(args) < 2 {
 		log.Fatal("At least two arguments expected!")
