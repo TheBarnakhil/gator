@@ -12,11 +12,15 @@ import (
 
 func main() {
 	cfg, err := config.Read()
+	if err != nil {
+		log.Fatalf("Error reading config file : %v", err)
+	}
+
 	db, err := sql.Open("postgres", cfg.DbURL)
 	dbQueries := database.New(db)
 
 	if err != nil {
-		log.Fatalf("Error reading config file : %v", err)
+		log.Fatalf("Error conencting to db : %v", err)
 	}
 	s := &state{
 		cfg: &cfg,
@@ -29,6 +33,7 @@ func main() {
 	cmds.register("register", handleRegister)
 	cmds.register("reset", handleReset)
 	cmds.register("users", handleUsers)
+	cmds.register("agg", handleAgg)
 	args := os.Args
 	// if len(args) < 2 && !(args[1] == ){
 	// 	log.Fatal("At least two arguments expected!")
